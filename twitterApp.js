@@ -22,7 +22,7 @@ search = "Ryerson"
 server.listen(8081);
 
 app.get('/', function(req,res) {
-    res.sendfile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index.html');
     
 });
 
