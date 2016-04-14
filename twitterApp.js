@@ -135,33 +135,51 @@ io.sockets.on('connection', function (socket) {
             io.sockets.emit('posted',JSON.stringify(data.text));
         });
     
-    }
-    
-    
-    });
-    
-    
-  /*}else if (buttonValue == "Post") {
-     
-    app.post('/process_post2', urlencodedParser, function (req, res) {
-
-   // Prepare output in JSON format
+    }else if (buttonValue == "SearchUser") {
+        
         response = {
-            postTweet:req.body.postTweet
+            name:req.body.name,
         };
 
-        post = JSON.stringify(response.postTweet);
-        console.log(post);
-
+        if ( response.name == "" ) {
+             console.log("enter search name");
+        
+         
+         }else{
+             name = JSON.stringify(response.name);
+         }
+   
         res.redirect('http://127.0.0.1:8081');
    
-   //res.end(JSON.stringify(response));
-   
-        T.post('statuses/update', { status: post }, function(err, data, response) {
-            console.log(data);
+        
+     
+        T.get('users/search', { q: name}, function(err, data, response) {
+            
+                //console.log(data);
+                
+                io.sockets.emit('name',JSON.stringify(data[0].name));
+                io.sockets.emit('screenName',JSON.stringify(data[0].screen_name));
+                io.sockets.emit('location',JSON.stringify(data[0].location));
+                io.sockets.emit('description',JSON.stringify(data[0].description));
+                io.sockets.emit('friends',JSON.stringify(data[0].friends_count));
+                io.sockets.emit('followers',JSON.stringify(data[0].followers_count));
+                io.sockets.emit('lastStat',JSON.stringify(data[0].status.text));
+                io.sockets.emit('accCreate',JSON.stringify(data[0].created_at));
+
+                
+            
+
         });
+        
+}
+    
     });
-  }*/
     
     
-});
+    });
+    
+    
+ 
+    
+    
+
