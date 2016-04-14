@@ -47,9 +47,9 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="/"> Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
 					<li><a href="/messages">Messages</a></li>
-					<li><a href="/tweets">Tweets</a></li>
+					<li class="active"><a href="/tweets">Tweets</a></li>
 					<form class="navbar-form navbar-right" role="search">
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="Number of tweets">
@@ -71,16 +71,7 @@
 	    </div><!-- /.container-fluid -->
 	</nav>			
 </div>
-		
-		<hr> <!-- simple divider -->
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="keyword" placeholder="Search for something">
-				<input type="text" class="form-control" name="counts" placeholder=" How many tweets">
-			</div>
-				<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
-		</form>		
-		
+
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
 		socket.on('user', function(tweet){
@@ -124,12 +115,13 @@
 		});
 		
 		</script>
-
-		
-		<div id="tweetd"></div>
-		<div id="tweettext"></div>
-		<div id="tweetdate"></div>	
-
+		<hr> <!-- simple divider -->
+		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+			<div class= "form-group">
+				<input type="text" class="form-control" name="postTweet" placeholder="Post something!">
+			</div>
+				<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
+		</form>				
 		
 		<div class="content">
 			<div class="col span_1_of_4">
