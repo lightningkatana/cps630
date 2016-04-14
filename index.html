@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-
 <html>
-<head>
-    <title>cps630 - project</title>
-	<link rel="stylesheet" href="style.css" type="text/css">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>CPS 630 Project</title>		
+	</head>
 
-<body>
-    
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-    
-	<header class="flex-container">
+	<body>
+		
+	    	<script src="/socket.io/socket.io.js"></script>
+    		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+		
+		<header class="flex-container">
 			<h1>CPS 630 Project</h1>
 			<nav class="flex-item">
 				<ul class="flex-list">
@@ -23,39 +23,51 @@
 					  </div></li>
 				</ul>
 			</nav>
-		</header>	
-	
-    <form action="http://127.0.0.1:8081/process_post" method="POST">
-        What to Search For: <input type="text" name="keyword">  <br>
-        How Many Tweets?: <input type="text" name="counts"> <br>
-    <input type="submit" value="Submit">
-    
-    <script>
-        var socket = io.connect('http://127.0.0.1:8081');
-        socket.on('user', function(tweet){
-        $('#tweetd').after( '<div>User: &nbsp &nbsp &nbsp &nbsp'+ tweet+'</div>');
-        });
-        socket.on('text', function(tweettext){
-            $('#tweettext').after('<div>Tweeted: ' +tweettext+ '</div>');
-        });
-        socket.on('created', function(tweetdate){
-            $('#tweetdate').after('<div>Created: &nbsp' +tweetdate+ '</div>' + '<br>');
-        });
-    </script>
-    
-    
-	<div id="tweetd"> </div>
-	<div id="tweettext"></div>
-	<div id="tweetdate"></div>
- 
+		</header>
+
+		<form action="http://127.0.0.1:8081/process_post" method="POST">
+		What to Search For: <input type="text" name="keyword">  <br>
+		How Many Tweets?: <input type="text" name="counts"> <br>
+		<input type="submit" name="go" value="Submit">
+
+		<script>
+		var socket = io.connect('http://127.0.0.1:8081');
+		socket.on('user', function(tweet){
+		$('#tweetd').after( '<div class="tweetd">User: &nbsp &nbsp &nbsp &nbsp'+ tweet+'</div>');
+		});
+		socket.on('text', function(tweettext){
+		    $('#tweetd').after('<div class="tweettext">Tweeted: ' +tweettext+ '</div>');
+		});
+		socket.on('created', function(tweetdate){
+		    $('#tweetd').after('<div class="tweetdate">Created: &nbsp' +tweetdate+ '</div>' + '<br>');
+		});
+		socket.on('you', function(post){
+		$('#yourname').after( '<div class="yourname">User: &nbsp &nbsp &nbsp &nbsp'+ post +'</div>');
+		});
+		socket.on('posted', function(posttext){
+		    $('#yourtweet').after('<div class="yourtweet">Tweeted: ' +posttext+ '</div>');
+		});
+		
+		</script>
+		
 		<div class="content">
 			<div class="col span_1_of_4">
-				<div class="user">@User123</div>
-				<div class="text">This is placeholder text, it will be changed.</div>
-				<div class="date">2:53 PM - September 5, 2016</div>
+				<div class="user" id="tweetd"></div>
+				<div class="text" id="tweettext"></div>
+				<div class="date" id="tweetdate"></div>
 			</div>
 		</div>
-
-
-</body>
+		
+		<form action="http://127.0.0.1:8081/process_post2" method="POST">
+		What to post?: <input type="text" name="postTweet">  <br>
+		<button type="submit" name="go" value="Post">Post!</button>
+		
+		<div class="content">
+			<div class="col span_1_of_4">
+				<div class="you" id="yourname"></div>
+				<div class="posted" id="yourtweet"></div>
+			</div>
+		</div>
+		
+	</body>
 </html>
