@@ -200,8 +200,9 @@ li {
 }
 
 .tweetd {
+	border-radius:5px;
 	color: #ffffff;
-	background: #015a9c;
+	background: #222222;
 	font-size: 20px;
 	padding: 5px;
 	margin: 5px;

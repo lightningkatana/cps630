@@ -36,7 +36,7 @@ server.listen(8081);
 
 
 app.use(express.static('./stylesheet'));
-
+app.use(express.static('./img'));
 
 
 app.get('/', function(req,res) {
