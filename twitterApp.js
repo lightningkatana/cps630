@@ -39,9 +39,16 @@ app.use(express.static('./stylesheet'));
 app.use(express.static('./img'));
 
 
-app.get('/', function(req,res) {
+
+/*app.get('/', function(req,res) {
         res.sendFile(__dirname + '/index.html');
 });
+
+app.get('/', function(req,res) {
+        res.sendFile(__dirname + '/tweets.html');
+});*/
+
+app.use('/',express.static(__dirname + '/public'));
 
 
 
