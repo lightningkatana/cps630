@@ -63,6 +63,7 @@ io.sockets.on('connection', function (socket) {
   
   
   
+  //if (buttonValue == "Submit") {
     app.post('/process_post', urlencodedParser, function (req, res) {
         
         var buttonValue = req.body.go;
@@ -137,11 +138,11 @@ io.sockets.on('connection', function (socket) {
    
         T.post('statuses/update', { status: post }, function(err, data, response) {
             console.log(data);
-            io.sockets.emit('you',JSON.stringify(data.user.screen_name));
+			io.sockets.emit('name',JSON.stringify(data.user.name));
+			io.sockets.emit('screenName',JSON.stringify(data.user.screen_name));
             io.sockets.emit('posted',JSON.stringify(data.text));
-            
-            
-            
+			io.sockets.emit('created',JSON.stringify(data.created_at));
+			io.sockets.emit('picture',JSON.stringify(data.profile_image_url));
         });
     
     }else if (buttonValue == "SearchUser") {
@@ -174,8 +175,11 @@ io.sockets.on('connection', function (socket) {
                 io.sockets.emit('followers',JSON.stringify(data[0].followers_count));
                 io.sockets.emit('lastStat',JSON.stringify(data[0].status.text));
                 io.sockets.emit('accCreate',JSON.stringify(data[0].created_at));
+				io.sockets.emit('banner',JSON.stringify(data[0].profile_banner_url));
+				io.sockets.emit('picture',JSON.stringify(data[0].profile_image_url));
 
-                var user = {
+                
+            var user = {
                         name: JSON.stringify(data[0].name),
                         sName: JSON.stringify(data[0].screen_name),
                         location: JSON.stringify(data[0].location),
@@ -192,11 +196,10 @@ io.sockets.on('connection', function (socket) {
                         }
                         console.error(result);
                     });
-            
 
         });
         
-    }else if (buttonValue == "stat") {
+}else if (buttonValue == "stat") {
         
         res.redirect('http://127.0.0.1:8081/stats.html');
             
@@ -242,12 +245,11 @@ io.sockets.on('connection', function (socket) {
          });
 
     }
-
     
     });
     
     
-});
+    });
     
     
  
