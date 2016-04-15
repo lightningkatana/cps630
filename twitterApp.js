@@ -208,8 +208,8 @@ io.sockets.on('connection', function (socket) {
                        T.get('search/tweets', { q:JSON.stringify(result[0].search) , count: 1 }, function(err, data, response) {
 
 
-                        io.sockets.emit('stat',JSON.stringify(result[0].search));
-                        io.sockets.emit('index',JSON.parse(result[0].value_occurrence));
+                        io.sockets.emit('stat',result[0].search);
+                        io.sockets.emit('index',result[0].value_occurrence);
 
                         console.log(JSON.stringify(result[0].search));
 
@@ -217,6 +217,30 @@ io.sockets.on('connection', function (socket) {
                 });
                         
                         //console.log(query2);
+    }else if (buttonValue == "userStat") {
+        
+         res.redirect('http://127.0.0.1:8081/stats.html');
+         
+         var query3 = connection.query('SELECT `sName` FROM `users` WHERE `followers` = (SELECT MAX(`followers`) FROM `users`)',function(err,result,response){
+            if (err) {
+                        console.error(err);
+                     }
+                     console.log(result[0].sName);
+                     
+                    T.get('users/search', { q: result[0].sName}, function(err, data, response) {
+                        
+                        io.sockets.emit('sName',result[0].sName);
+                        io.sockets.emit('friend',JSON.stringify(data[0].friends_count));
+                        io.sockets.emit('follow',JSON.stringify(data[0].followers_count));
+
+                        
+                    });
+
+                     
+
+            
+         });
+
     }
 
     

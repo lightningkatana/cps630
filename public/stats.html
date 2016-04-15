@@ -71,20 +71,34 @@
         socket.on('index', function(nums){
 		$('#idx').after( '<div class="idx">It was seached: '+nums +' times'+'</div>');
 		});
-        
+        socket.on('sName', function(sName){
+		$('#sN').after( '<div class="sN">The most popular user is: '+sName +'</div>');
+		});
+        socket.on('friend', function(numFri){
+		$('#numFrnd').after( '<div class="numFrnd">This user has ' +numFri+ ' friends,'+'</div>');
+		});
+        socket.on('follow', function(numFoll){
+		$('#numFoll').after( '<div class="numFoll">and has '+numFoll + ' followers'+'</div>');
+		});
 		
 		</script>
 
 		<hr> <!-- simple divider -->
 		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
 			<div>
-            	<button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve Keyword Stats</button>
-                <button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve User Stats</button>
+            	<button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve Keyword Stat</button>
+                <button  type="submit" class="btn btn-default" name="go" value="userStat">Retrieve User Stat</button>
 
                 </div>
 		</form>
 		
-		
+		<div class="content">
+			<div class="col span_1_of_4">
+				<div class="sn" id="sN"></div>
+                <div class="numFr" id="numFrnd"></div>
+                <div class="numFo" id="numFoll"></div>
+			</div>
+		</div>
 		
 		<div class="content">
 			<div class="col span_1_of_4">
