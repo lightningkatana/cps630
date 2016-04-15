@@ -69,22 +69,37 @@
 			</div>
 		</div>
 		<hr>
+		
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
-
-		socket.on('you', function(post){
-		$('#yourname').after( '<div class="yourname">'+ post +'</div>');
+		var name, sname;
+		
+		socket.on('name', function(getName){
+			name = getName.slice(1,-1);
+		});
+		socket.on('screenName', function(getSName){
+			sname = getSName.slice(1,-1);
+		});
+		socket.on('picture', function(getPic){
+		    //$('#Name').after('<span><div class="Name"><img id="pic" src="' + getPic.slice(1,-1) + '"> ' + name + ' - @' + sname + '</div></span><br>');
+			$('#Name').after('<span><div class="Name">' + name + ' - @' + sname + '</div></span><br>');
 		});
 		socket.on('posted', function(posttext){
-		    $('#yourtweet').after('<div class="yourtweet">' +posttext+ '</div>');
+		    $('#yourtweet').after('<div class="yourtweet">' +posttext.slice(3, -3)+ '</div>');
+		});
+		socket.on('created', function(postdate){
+		    $('#yourdate').after('<div class="yourdate">' +postdate.slice(1, -1)+ '</div>');
 		});
 		</script>
-		
-		<br></br>
+
 		<div class="content">
 			<div class="col">
-				<div class="you" id="yourname"></div>
-				<div class="posted" id="yourtweet"></div>
+				<div id="container">
+					<div id="Name"></div>
+					<div id="sName"></div>
+				</div>
+				<div id="yourtweet"></div>
+				<div id="yourdate"></div>
 			</div>
 		</div>
 		

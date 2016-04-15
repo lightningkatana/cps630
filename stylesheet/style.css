@@ -51,39 +51,6 @@ li {
 	text-align: center;
 }
 
-.user {
-	color: rgb(0,0,0);
-	background: #015a9c;
-	font-size: 20px;
-	width: 100%;
-	padding: 5px;
-	text-align: left;
-}
-
-.text {
-	color: #000000;
-	font-size: 15px;
-	padding: 5px;
-	margin: 5px;
-	text-align: left;
-}
-
-.date {
-	color: #888;
-	font-size: 11px;
-	padding: 5px;
-	margin: 5px;
-	text-align: left;
-}
-
-.tweetd {
-	color: #ffffff;
-	background: #222222;
-	font-size: 14px;
-	padding: 5px;
-	text-align: left;
-}
-
 .yourname {
 	color: #ffffff;
 	background: #222222;
@@ -100,6 +67,21 @@ li {
 	text-align: left;
 }
 
+.yourdate {
+	color: #888888;
+	font-size: 11px;
+	padding: 5px;
+	margin: 5px;
+	text-align: left;
+}
+
+.tweetd {
+	color: #ffffff;
+	background: #222222;
+	font-size: 14px;
+	padding: 5px;
+	text-align: left;
+}
 
 .tweettext {
 	color: #000000;
@@ -117,6 +99,70 @@ li {
 	text-align: left;
 }	
 
+/*  MESSAGING  */
+
+.container {
+	display: inline-flex;
+}
+
+.banner {
+	width: 100%;
+}
+
+.pic {
+	background: #222222;
+	vertical-align: top;
+}
+
+.Name {
+	float: left;
+	color: #ffffff;
+	background: #222222;
+	font-size: 14px;
+	padding: 5;
+	text-align: left;
+	width: 100%;
+}
+
+.sName {
+	color: #888888;
+	background: #222222;
+	font-size: 14px;
+	padding: 5;
+	text-align: left;
+}
+
+.desc {
+	text-align: left;
+	padding: 5;
+	background: #dddddd;
+	margin: 5 0 0 0;
+}
+
+.loc {
+	text-align: left;
+	padding: 5;
+}
+
+.friends {
+	text-align: left;
+	padding: 5;
+}
+
+.follow {
+	text-align: left;
+	padding: 5;
+}
+
+.last {
+	text-align: left;
+	padding: 5;
+}
+
+.accCreated {
+	text-align: left;
+	padding: 5;
+}
 
 
 /*  COLUMN SETUP  */

@@ -56,27 +56,27 @@
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
 		socket.on('user', function(tweet){
-		$('#tweetd').after( '<div id="user" class="tweetd">'+ tweet+'</div>');
+		$('#tweetd').after( '<div class="tweetd">@'+ tweet.slice(1, -1)+'</div>');
 		});
 		socket.on('text', function(tweettext){
-		    $('#tweetd').after('<div id="text" class="tweettext">' +tweettext+ '</div>');
+		    $('#tweetd').after('<div class="tweettext">' +tweettext.slice(1, -1)+ '</div>');
 		});
 		socket.on('created', function(tweetdate){
-		    $('#tweetd').after('<div id="date" class="tweetdate">Created: &nbsp' +tweetdate+ '</div>' + '<br>');
+		    $('#tweetd').after('<div class="tweetdate">Created: &nbsp' +tweetdate.slice(1, -1)+ '</div>');
 		});
 
 		
 		socket.on('name', function(getName){
-		    $('#Name').after('<div class="Name">User: ' +getName+ '</div>' + '<br>');
+		    $('#Name').after('<div class="Name">User: ' +getName.slice(1, -1)+ '</div>' + '<br>');
 		});
 		socket.on('screenName', function(getSName){
-		    $('#sName').after('<div class="sName">Screen Name: ' +getSName+ '</div>' + '<br>');
+		    $('#sName').after('<div class="sName">Screen Name: ' +getSName.slice(1, -1)+ '</div>' + '<br>');
 		});
 		socket.on('location', function(getLoc){
-		    $('#loc').after('<div class="loc">Location: ' +getLoc+ '</div>' + '<br>');
+		    $('#loc').after('<div class="loc">Location: ' +getLoc.slice(1, -1)+ '</div>' + '<br>');
 		});
 		socket.on('description', function(getDesc){
-		    $('#desc').after('<div class="desc">Description: ' +getDesc+ '</div>' + '<br>');
+		    $('#desc').after('<div class="desc">Description: ' +getDesc.slice(1, -1)+ '</div>' + '<br>');
 		});
 		socket.on('friends', function(getFriends){
 		    $('#friends').after('<div class="friends">Friends: ' +getFriends+ '</div>' + '<br>');
@@ -85,10 +85,10 @@
 		    $('#follow').after('<div class="follow">followers: ' +getFollow+ '</div>' + '<br>');
 		});
 		socket.on('lastStat', function(getLast){
-		    $('#last').after('<div class="last">Last Status: ' +getLast+ '</div>' + '<br>');
+		    $('#last').after('<div class="last">Last Status: ' +getLast.slice(1, -1)+ '</div>' + '<br>');
 		});
 		socket.on('accCreate', function(getAccC){
-		    $('#accCreated').after('<div class="accCreated">Account Created: ' +getAccC+ '</div>' + '<br>');
+		    $('#accCreated').after('<div class="accCreated">Account Created: ' +getAccC.slice(1, -1)+ '</div>' + '<br>');
 		});
 		
 		</script>
@@ -101,6 +101,7 @@
 				<div id="tweettext"></div>
 				<div id="tweetdate"></div>
 			</div>
+			<br></br>
 		</div>
 
 		

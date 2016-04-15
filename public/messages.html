@@ -56,31 +56,42 @@
 		
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
+		var name, sname;
 		
+		socket.on('banner', function(getBanner){
+		    $('#banner').after('<img class="banner" src="' + getBanner.slice(1,-1) + '">');
+		});
+
 		socket.on('name', function(getName){
-		    $('#Name').after('<div class="Name">User: ' +getName+ '</div>' + '<br>');
+			name = getName.slice(1,-1);
+		    //$('#Name').html('<div class="Name"><img id="pic">' +getName.slice(1, -1)+ '</div>');
 		});
 		socket.on('screenName', function(getSName){
-		    $('#sName').after('<div class="sName">Screen Name: ' +getSName+ '</div>' + '<br>');
+			sname = getSName.slice(1,-1);
+		    //$('#sName').after('<div class="sName"><p>@' +getSName.slice(1, -1)+ '</p></div>');
+		});
+		socket.on('picture', function(getPic){
+		    $('#Name').after('<span><div class="Name"><img id="pic" src="' + getPic.slice(1,-1) + '"> ' + name + ' - @' + sname + '</div></span><br>');
 		});
 		socket.on('location', function(getLoc){
-		    $('#loc').after('<div class="loc">Location: ' +getLoc+ '</div>' + '<br>');
+		    $('#loc').after('<div class="loc">Location: ' +getLoc.slice(1, -1)+ '</div>');
 		});
 		socket.on('description', function(getDesc){
-		    $('#desc').after('<div class="desc">Description: ' +getDesc+ '</div>' + '<br>');
+		    $('#desc').after('<div class="desc">' +getDesc.slice(1, -1)+ '</div>');
 		});
 		socket.on('friends', function(getFriends){
-		    $('#friends').after('<div class="friends">Friends: ' +getFriends+ '</div>' + '<br>');
+		    $('#friends').after('<div class="friends">' +getFriends+ ' friends</div>');
 		});
 		socket.on('followers', function(getFollow){
-		    $('#follow').after('<div class="follow">followers: ' +getFollow+ '</div>' + '<br>');
+		    $('#follow').after('<div class="follow">' +getFollow+ ' followers</div>');
 		});
 		socket.on('lastStat', function(getLast){
-		    $('#last').after('<div class="last">Last Status: ' +getLast+ '</div>' + '<br>');
+		    $('#last').after('<div class="yourname">Last Tweet</div><div class="last">' +getLast.slice(1, -1)+ '</div>');
 		});
 		socket.on('accCreate', function(getAccC){
-		    $('#accCreated').after('<div class="accCreated">Account Created: ' +getAccC+ '</div>' + '<br>');
+		    $('#accCreated').after('<div class="accCreated">Account created on ' +getAccC.slice(1, -1)+ '</div>');
 		});
+
 		
 		</script>	
 
@@ -109,14 +120,18 @@
 	
 		<div class="content">
 			<div class="col">
-				<div class="name" id="Name"></div>
-				<div class="screenName" id="sName"></div>
-				<div class="location" id="loc"></div>
-				<div class="description" id="desc"></div>
-				<div class="friends" id="friends"></div>
-				<div class="followers" id="follow"></div>
-				<div class="statuses" id="last"></div>
-				<div class="created" id="accCreated"></div>
+				<img id="banner">
+				<div id="container">
+					<div id="Name"></div>
+					<div id="sName"></div>
+				</div>
+				<div id="desc"></div>
+				<div id="loc"></div>
+				<div id="friends"></div>
+				<div id="follow"></div>
+				<div id="accCreated"></div>
+				<div id="last"></div>
+				
 			</div>
 		</div>		
 		
