@@ -39,17 +39,20 @@ app.use(express.static('./stylesheet'));
 app.use(express.static('./img'));
 
 
+
+/*app.get('/', function(req,res) {
+        res.sendFile(__dirname + '/index.html');
+});
+
 app.get('/', function(req,res) {
-    res.sendFile(__dirname + '/index.html');
-});
+        res.sendFile(__dirname + '/tweets.html');
+});*/
 
-app.get('/messages', function(req, res) {
-	res.sendFile(__dirname + '/messages.html');
-});
+app.use('/',express.static(__dirname + '/public'));
 
-app.get('/tweets', function(req, res) {
-	res.sendFile(__dirname + '/tweets.html');
-});
+
+
+
 
 //var buttonValue = req.body.go;
 
