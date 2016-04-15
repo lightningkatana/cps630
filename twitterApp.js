@@ -63,7 +63,6 @@ io.sockets.on('connection', function (socket) {
   
   
   
-  //if (buttonValue == "Submit") {
     app.post('/process_post', urlencodedParser, function (req, res) {
         
         var buttonValue = req.body.go;
@@ -140,6 +139,9 @@ io.sockets.on('connection', function (socket) {
             console.log(data);
             io.sockets.emit('you',JSON.stringify(data.user.screen_name));
             io.sockets.emit('posted',JSON.stringify(data.text));
+            
+            
+            
         });
     
     }else if (buttonValue == "SearchUser") {
@@ -173,17 +175,55 @@ io.sockets.on('connection', function (socket) {
                 io.sockets.emit('lastStat',JSON.stringify(data[0].status.text));
                 io.sockets.emit('accCreate',JSON.stringify(data[0].created_at));
 
-                
+                var user = {
+                        name: JSON.stringify(data[0].name),
+                        sName: JSON.stringify(data[0].screen_name),
+                        location: JSON.stringify(data[0].location),
+                        description: JSON.stringify(data[0].description),
+                        friends: JSON.stringify(data[0].friends_count),
+                        followers: JSON.stringify(data[0].followers_count),
+                        lastStat: JSON.stringify(data[0].status.text),
+                        created: JSON.stringify(data[0].created_at)
+                    };
+                    
+                    var query = connection.query('insert into sql5115151.users set ?',user,function(err,result){
+                        if (err) {
+                            console.error(err);
+                        }
+                        console.error(result);
+                    });
             
 
         });
         
-}
+    }else if (buttonValue == "stat") {
+        
+        res.redirect('http://127.0.0.1:8081/stats.html');
+            
+        var query2 = connection.query('SELECT `search`, COUNT(`search`) AS `value_occurrence` FROM `twitApp` GROUP BY `search` ORDER BY `value_occurrence` DESC LIMIT  1',function(err,result,response){
+                        if (err) {
+                            console.error(err);
+                        }
+                        
+                       T.get('search/tweets', { q:JSON.stringify(result[0].search) , count: 1 }, function(err, data, response) {
+
+
+                        io.sockets.emit('stat',JSON.stringify(result[0].search));
+                        io.sockets.emit('index',JSON.parse(result[0].value_occurrence));
+
+                        console.log(JSON.stringify(result[0].search));
+
+                        });
+                });
+                        
+                        //console.log(query2);
+    }
+
     
     });
     
     
-    });
+});
     
     
  
