@@ -33,22 +33,17 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
 					<li><a href="/messages.html">Messages</a></li>
-					<li class="active"><a href="/tweets">Tweets</a></li>
-					<form class="navbar-form navbar-right" role="search">
+					<li class="active"><a href="/tweets.html">Tweets</a></li>
+					<li><form class="navbar-form navbar-right" role="search" action="http://127.0.0.1:8081/process_post" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Number of tweets">
+							<input type="text" name="keyword" class="form-control" placeholder="Search">
+							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
 						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
 					</form>
-					
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
+					</li>
 
 				</ul>
 
@@ -59,27 +54,35 @@
 </div>
 
 
-		<hr> <!-- simple divider -->
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="postTweet" placeholder="Post something!">
+		<div class="content">
+			<div class="col">
+				<div class="composeh1">Compose a new tweet</div>
+				<br>
+				<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+					<div class= "form-group">
+						<textarea rows="4" cols="40" class="form-control" name="postTweet" maxlength="140" placeholder="Post something!" autofocus style="resize: none;"></textarea>
+					</div>
+					<br></br>
+					<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
+					<br></br>
+				</form>
 			</div>
-				<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
-		</form>
-		
+		</div>
+		<hr>
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
 
 		socket.on('you', function(post){
-		$('#yourname').after( '<div class="yourname">User: &nbsp &nbsp &nbsp &nbsp'+ post +'</div>');
+		$('#yourname').after( '<div class="yourname">'+ post +'</div>');
 		});
 		socket.on('posted', function(posttext){
-		    $('#yourtweet').after('<div class="yourtweet">Tweeted: ' +posttext+ '</div>');
+		    $('#yourtweet').after('<div class="yourtweet">' +posttext+ '</div>');
 		});
 		</script>
 		
+		<br></br>
 		<div class="content">
-			<div class="col span_1_of_4">
+			<div class="col">
 				<div class="you" id="yourname"></div>
 				<div class="posted" id="yourtweet"></div>
 			</div>
