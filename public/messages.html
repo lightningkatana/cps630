@@ -4,8 +4,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css">
-		<link rel="icon" href="favicon.png">
-		<title>Twitter crawler</title>		
+
+		<title>CPS 630 Project</title>		
 	</head>
 
 	<body>
@@ -24,35 +24,27 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-
 				</button>
 				<img alt="Brand" style="margin-top:5px" class="pull-left" src="icon.png" height="35" width="35">
-				<a class="navbar-brand" href="#">Twitter crawler</a>
+				<a class="navbar-brand" href="#">Twitter Crawler</a>
 					
 			</div>
 			
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
 					<li class="active"><a href="/messages.html">Find User</a></li>
 					<li><a href="/tweets.html">Tweets</a></li>
 					<li><a href="/stats.html">Stats</a></li>
-
-					<form class="navbar-form navbar-right" role="search">
+					<li><form class="navbar-form navbar-right" role="search" action="http://127.0.0.1:8081/process_post" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Number of tweets">
+							<input type="text" name="keyword" class="form-control" placeholder="Search">
+							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
 						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
 					</form>
-					
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
+					</li>
 
 				</ul>
 
@@ -65,58 +57,85 @@
 		
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
+		var name, sname;
 		
+		socket.on('banner', function(getBanner){
+		    $('#banner').after('<img class="banner" src="' + getBanner.slice(1,-1) + '">');
+		});
+
 		socket.on('name', function(getName){
-		    $('#Name').after('<div class="Name">User: ' +getName+ '</div>' + '<br>');
+			name = getName.slice(1,-1);
+		    //$('#Name').html('<div class="Name"><img id="pic">' +getName.slice(1, -1)+ '</div>');
 		});
 		socket.on('screenName', function(getSName){
-		    $('#sName').after('<div class="sName">Screen Name: ' +getSName+ '</div>' + '<br>');
+			sname = getSName.slice(1,-1);
+		    //$('#sName').after('<div class="sName"><p>@' +getSName.slice(1, -1)+ '</p></div>');
+		});
+		socket.on('picture', function(getPic){
+		    $('#Name').after('<span><div class="Name"><img id="pic" src="' + getPic.slice(1,-1) + '"> ' + name + ' - @' + sname + '</div></span><br>');
 		});
 		socket.on('location', function(getLoc){
-		    $('#loc').after('<div class="loc">Location: ' +getLoc+ '</div>' + '<br>');
+		    $('#loc').after('<div class="loc">Location: ' +getLoc.slice(1, -1)+ '</div>');
 		});
 		socket.on('description', function(getDesc){
-		    $('#desc').after('<div class="desc">Description: ' +getDesc+ '</div>' + '<br>');
+		    $('#desc').after('<div class="desc">' +getDesc.slice(1, -1)+ '</div>');
 		});
 		socket.on('friends', function(getFriends){
-		    $('#friends').after('<div class="friends">Friends: ' +getFriends+ '</div>' + '<br>');
+		    $('#friends').after('<div class="friends">' +getFriends+ ' friends</div>');
 		});
 		socket.on('followers', function(getFollow){
-		    $('#follow').after('<div class="follow">followers: ' +getFollow+ '</div>' + '<br>');
+		    $('#follow').after('<div class="follow">' +getFollow+ ' followers</div>');
 		});
 		socket.on('lastStat', function(getLast){
-		    $('#last').after('<div class="last">Last Status: ' +getLast+ '</div>' + '<br>');
+		    $('#last').after('<div class="yourname">Last Tweet</div><div class="last">' +getLast.slice(1, -1)+ '</div>');
 		});
 		socket.on('accCreate', function(getAccC){
-		    $('#accCreated').after('<div class="accCreated">Account Created: ' +getAccC+ '</div>' + '<br>');
+		    $('#accCreated').after('<div class="accCreated">Account created on ' +getAccC.slice(1, -1)+ '</div>');
 		});
-		
-		</script>
-		
-		<hr> <!-- simple divider -->
-		
-		
 
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="name" placeholder="Search a username">
+		
+		</script>	
+
+		<div class="content">
+			<div class="col">
+				<div id="tweetd"></div>
+				<div id="tweettext"></div>
+				<div id="tweetdate"></div>
 			</div>
-				<button type="submit" class="btn btn-default" name="go" value="SearchUser">Search</button>
-		</form>	
+		</div>
+		
+		<div class="content">
+			<div class="col">
+				<div class="composeh1">Search a username</div>
+				<br>
+				<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+					<div class= "form-group">
+						<input type="text" class="form-control" name="name" placeholder="Looking for...?">
+					</div>
+						<button type="submit" class="btn btn-default" name="go" value="SearchUser">Search</button>
+				</form>	
+				<br>
+			</div>
+		</div>
+		<hr>
 	
 		<div class="content">
-			<div class="col span_1_of_4">
-				<div class="name" id="Name"></div>
-				<div class="screenName" id="sName"></div>
-				<div class="location" id="loc"></div>
-				<div class="description" id="desc"></div>
-				<div class="friends" id="friends"></div>
-				<div class="followers" id="follow"></div>
-				<div class="statuses" id="last"></div>
-				<div class="created" id="accCreated"></div>
+			<div class="col">
+				<img id="banner">
+				<div id="container">
+					<div id="Name"></div>
+					<div id="sName"></div>
+				</div>
+				<div id="desc"></div>
+				<div id="loc"></div>
+				<div id="friends"></div>
+				<div id="follow"></div>
+				<div id="accCreated"></div>
+				<div id="last"></div>
+
 			</div>
 		</div>		
-		
+		<br>
 		
 		
 	</body>
