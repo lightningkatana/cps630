@@ -4,8 +4,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css">
-		<link rel="icon" href="favicon.png">
-		<title>Twitter crawler</title>		
+
+		<title>CPS 630 Project</title>		
 	</head>
 
 	<body>
@@ -28,31 +28,25 @@
 
 				</button>
 				<img alt="Brand" style="margin-top:5px" class="pull-left" src="icon.png" height="35" width="35">
-				<a class="navbar-brand" href="#">Twitter crawler</a>
+				<a class="navbar-brand" href="#">Twitter Crawler</a>
 					
 			</div>
 			
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
 					<li><a href="/messages.html">Find User</a></li>
 					<li><a href="/tweets.html">Tweets</a></li>
-                    <li class="active"><a href="/stats.html">Stats</a></li>
-
-					<form class="navbar-form navbar-right" role="search">
+					<li class="active"><a href="/stats.html">Stats</a></li>
+					<li><form class="navbar-form navbar-right" role="search" action="http://127.0.0.1:8081/process_post" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Number of tweets">
+							<input type="text" name="keyword" class="form-control" placeholder="Search">
+							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
 						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
 					</form>
-					
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
+					</li>
 
 				</ul>
 
@@ -83,29 +77,29 @@
 		
 		</script>
 
-		<hr> <!-- simple divider -->
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div>
-            	<button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve Keyword Stat</button>
-                <button  type="submit" class="btn btn-default" name="go" value="userStat">Retrieve User Stat</button>
 
-                </div>
-		</form>
 		
 		<div class="content">
-			<div class="col span_1_of_4">
+			<div class="col">
+				<div class="composeh1">Retrieve statistics</div>
+				<br>
+				<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+					<div>
+						<button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve Keyword Stat</button>
+						<button  type="submit" class="btn btn-default" name="go" value="userStat">Retrieve User Stat</button>
+					</div>
+				</form>
+				<br>
 				<div class="sn" id="sN"></div>
                 <div class="numFr" id="numFrnd"></div>
                 <div class="numFo" id="numFoll"></div>
+				<div class="stss" id="sts"></div>
+                <div class="num" id="idx"></div>
+				<br>
 			</div>
 		</div>
 		
-		<div class="content">
-			<div class="col span_1_of_4">
-				<div class="stss" id="sts"></div>
-                <div class="num" id="idx"></div>
-			</div>
-		</div>
+
 		
 	</body>
 </html>
