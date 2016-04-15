@@ -133,7 +133,7 @@ io.sockets.on('connection', function (socket) {
         post = JSON.stringify(response.postTweet);
         console.log(post);
 
-        res.redirect('http://127.0.0.1:8081');
+        res.redirect('http://127.0.0.1:8081/tweets.html');
    
    
         T.post('statuses/update', { status: post }, function(err, data, response) {
@@ -156,7 +156,7 @@ io.sockets.on('connection', function (socket) {
              name = JSON.stringify(response.name);
          }
    
-        res.redirect('http://127.0.0.1:8081');
+        res.redirect('http://127.0.0.1:8081/messages.html');
    
         
      

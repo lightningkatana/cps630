@@ -65,7 +65,18 @@
 				<input type="text" class="form-control" name="postTweet" placeholder="Post something!">
 			</div>
 				<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
-		</form>				
+		</form>
+		
+		<script>
+		var socket = io.connect('http://127.0.0.1:8081');
+
+		socket.on('you', function(post){
+		$('#yourname').after( '<div class="yourname">User: &nbsp &nbsp &nbsp &nbsp'+ post +'</div>');
+		});
+		socket.on('posted', function(posttext){
+		    $('#yourtweet').after('<div class="yourtweet">Tweeted: ' +posttext+ '</div>');
+		});
+		</script>
 		
 		<div class="content">
 			<div class="col span_1_of_4">
