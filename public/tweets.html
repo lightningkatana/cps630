@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="style.css" type="text/css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css">
-
+		<link rel="icon" href="favicon.png">
 		<title>Twitter crawler</title>		
 	</head>
 
@@ -24,6 +24,8 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+
 				</button>
 				<img alt="Brand" style="margin-top:5px" class="pull-left" src="icon.png" height="35" width="35">
 				<a class="navbar-brand" href="#">Twitter crawler</a>
@@ -33,17 +35,24 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
-					<li><a href="/messages.html">Messages</a></li>
+					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="/messages.html">Find User</a></li>
 					<li class="active"><a href="/tweets.html">Tweets</a></li>
-					<li><form class="navbar-form navbar-right" role="search" action="http://127.0.0.1:8081/process_post" method="POST">
+					<li><a href="/stats.html">Stats</a></li>
+
+					<form class="navbar-form navbar-right" role="search">
 						<div class="form-group">
-							<input type="text" name="keyword" class="form-control" placeholder="Search">
-							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
+							<input type="text" class="form-control" placeholder="Number of tweets">
 						</div>
-						<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
+						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
-					</li>
+					
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
 
 				</ul>
 
@@ -54,52 +63,29 @@
 </div>
 
 
-		<div class="content">
-			<div class="col">
-				<div class="composeh1">Compose a new tweet</div>
-				<br>
-				<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-					<div class= "form-group">
-						<textarea rows="4" cols="40" class="form-control" name="postTweet" maxlength="140" placeholder="Post something!" autofocus style="resize: none;"></textarea>
-					</div>
-					<br></br>
-					<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
-					<br></br>
-				</form>
+		<hr> <!-- simple divider -->
+		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+			<div class= "form-group">
+				<input type="text" class="form-control" name="postTweet" placeholder="Post something!">
 			</div>
-		</div>
-		<hr>
+				<button type="submit" class="btn btn-default" name="go" value="Post">Post</button>
+		</form>
 		
 		<script>
 		var socket = io.connect('http://127.0.0.1:8081');
-		var name, sname;
-		
-		socket.on('name', function(getName){
-			name = getName.slice(1,-1);
-		});
-		socket.on('screenName', function(getSName){
-			sname = getSName.slice(1,-1);
-		});
-		socket.on('picture', function(getPic){
-		    //$('#Name').after('<span><div class="Name"><img id="pic" src="' + getPic.slice(1,-1) + '"> ' + name + ' - @' + sname + '</div></span><br>');
-			$('#Name').after('<span><div class="Name">' + name + ' - @' + sname + '</div></span><br>');
+
+		socket.on('you', function(post){
+		$('#yourname').after( '<div class="yourname">User: &nbsp &nbsp &nbsp &nbsp'+ post +'</div>');
 		});
 		socket.on('posted', function(posttext){
-		    $('#yourtweet').after('<div class="yourtweet">' +posttext.slice(3, -3)+ '</div>');
-		});
-		socket.on('created', function(postdate){
-		    $('#yourdate').after('<div class="yourdate">' +postdate.slice(1, -1)+ '</div>');
+		    $('#yourtweet').after('<div class="yourtweet">Tweeted: ' +posttext+ '</div>');
 		});
 		</script>
-
+		
 		<div class="content">
-			<div class="col">
-				<div id="container">
-					<div id="Name"></div>
-					<div id="sName"></div>
-				</div>
-				<div id="yourtweet"></div>
-				<div id="yourdate"></div>
+			<div class="col span_1_of_4">
+				<div class="you" id="yourname"></div>
+				<div class="posted" id="yourtweet"></div>
 			</div>
 		</div>
 		
