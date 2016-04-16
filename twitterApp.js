@@ -31,8 +31,9 @@ var T = new Twit({
 
 
 
-server.listen(8081);
-
+http.listen(process.env.PORT || 8081, function(){
+  console.log('listening on', http.address().port);
+});
 
 
 app.use(express.static('./stylesheet'));
