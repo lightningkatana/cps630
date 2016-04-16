@@ -39,7 +39,7 @@
 					<li><a href="/messages.html">Find User</a></li>
 					<li><a href="/tweets.html">Tweets</a></li>
 					<li class="active"><a href="/stats.html">Stats</a></li>
-					<li><form class="navbar-form navbar-right" role="search" action="http://127.0.0.1:8081/process_post" method="POST">
+					<li><form class="navbar-form navbar-right" role="search" action="https://twittercrawler-cps630.herokuapp.com/process_post" method="POST">
 						<div class="form-group">
 							<input type="text" name="keyword" class="form-control" placeholder="Search">
 							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
@@ -57,7 +57,7 @@
 </div>
         <script>
             
-		var socket = io.connect('http://127.0.0.1:8081');
+		var socket = io.connect('https://twittercrawler-cps630.herokuapp.com/');
 
 		socket.on('stat', function(stats){
 		$('#sts').after( '<div class="stss">The most searched Keyword: '+ stats +'</div>');
@@ -83,7 +83,7 @@
 			<div class="col">
 				<div class="composeh1">Retrieve statistics</div>
 				<br>
-				<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
+				<form action="https://twittercrawler-cps630.herokuapp.com//process_post"class="navbar-form" method="POST">
 					<div>
 						<button  type="submit" class="btn btn-default" name="go" value="stat">Retrieve Keyword Stat</button>
 						<button  type="submit" class="btn btn-default" name="go" value="userStat">Retrieve User Stat</button>
