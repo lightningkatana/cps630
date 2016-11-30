@@ -8,10 +8,10 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host: 'sql5.freemysqlhosting.net',
-    user: 'sql5115151',
-    password: 'iZauazDTDG',
-    database: 'sql5115151'
+    host: 'convergrp.site.nfoservers.com',
+    user: 'convergrp',
+    password: 'aAqVDxs4G3',
+    database: 'convergrp_test'
 });
 
 connection.connect();
@@ -31,29 +31,15 @@ var T = new Twit({
 
 
 
-http.listen(process.env.PORT || 8081, function(){
-  console.log('listening on', http.address().port);
-});
+server.listen(8081);
+
 
 
 app.use(express.static('./stylesheet'));
 app.use(express.static('./img'));
 
 
-
-/*app.get('/', function(req,res) {
-        res.sendFile(__dirname + '/index.html');
-});
-
-app.get('/', function(req,res) {
-        res.sendFile(__dirname + '/tweets.html');
-});*/
-
 app.use('/',express.static(__dirname + '/public'));
-
-
-
-
 
 //var buttonValue = req.body.go;
 
@@ -134,16 +120,13 @@ io.sockets.on('connection', function (socket) {
         post = JSON.stringify(response.postTweet);
         console.log(post);
 
-        res.redirect('http://127.0.0.1:8081/tweets.html');
+        res.redirect('http://127.0.0.1:8081');
    
    
         T.post('statuses/update', { status: post }, function(err, data, response) {
             console.log(data);
-			io.sockets.emit('name',JSON.stringify(data.user.name));
-			io.sockets.emit('screenName',JSON.stringify(data.user.screen_name));
+            io.sockets.emit('you',JSON.stringify(data.user.screen_name));
             io.sockets.emit('posted',JSON.stringify(data.text));
-			io.sockets.emit('created',JSON.stringify(data.created_at));
-			io.sockets.emit('picture',JSON.stringify(data.profile_image_url));
         });
     
     }else if (buttonValue == "SearchUser") {
@@ -160,7 +143,7 @@ io.sockets.on('connection', function (socket) {
              name = JSON.stringify(response.name);
          }
    
-        res.redirect('http://127.0.0.1:8081/messages.html');
+        res.redirect('http://127.0.0.1:8081');
    
         
      
@@ -176,76 +159,13 @@ io.sockets.on('connection', function (socket) {
                 io.sockets.emit('followers',JSON.stringify(data[0].followers_count));
                 io.sockets.emit('lastStat',JSON.stringify(data[0].status.text));
                 io.sockets.emit('accCreate',JSON.stringify(data[0].created_at));
-				io.sockets.emit('banner',JSON.stringify(data[0].profile_banner_url));
-				io.sockets.emit('picture',JSON.stringify(data[0].profile_image_url));
 
                 
-            var user = {
-                        name: JSON.stringify(data[0].name),
-                        sName: JSON.stringify(data[0].screen_name),
-                        location: JSON.stringify(data[0].location),
-                        description: JSON.stringify(data[0].description),
-                        friends: JSON.stringify(data[0].friends_count),
-                        followers: JSON.stringify(data[0].followers_count),
-                        lastStat: JSON.stringify(data[0].status.text),
-                        created: JSON.stringify(data[0].created_at)
-                    };
-                    
-                    var query = connection.query('insert into sql5115151.users set ?',user,function(err,result){
-                        if (err) {
-                            console.error(err);
-                        }
-                        console.error(result);
-                    });
+            
 
         });
         
-}else if (buttonValue == "stat") {
-        
-        res.redirect('http://127.0.0.1:8081/stats.html');
-            
-        var query2 = connection.query('SELECT `search`, COUNT(`search`) AS `value_occurrence` FROM `twitApp` GROUP BY `search` ORDER BY `value_occurrence` DESC LIMIT  1',function(err,result,response){
-                        if (err) {
-                            console.error(err);
-                        }
-                        
-                       T.get('search/tweets', { q:JSON.stringify(result[0].search) , count: 1 }, function(err, data, response) {
-
-
-                        io.sockets.emit('stat',result[0].search);
-                        io.sockets.emit('index',result[0].value_occurrence);
-
-                        console.log(JSON.stringify(result[0].search));
-
-                        });
-                });
-                        
-                        //console.log(query2);
-    }else if (buttonValue == "userStat") {
-        
-         res.redirect('http://127.0.0.1:8081/stats.html');
-         
-         var query3 = connection.query('SELECT `sName` FROM `users` WHERE `followers` = (SELECT MAX(`followers`) FROM `users`)',function(err,result,response){
-            if (err) {
-                        console.error(err);
-                     }
-                     console.log(result[0].sName);
-                     
-                    T.get('users/search', { q: result[0].sName}, function(err, data, response) {
-                        
-                        io.sockets.emit('sName',result[0].sName);
-                        io.sockets.emit('friend',JSON.stringify(data[0].friends_count));
-                        io.sockets.emit('follow',JSON.stringify(data[0].followers_count));
-
-                        
-                    });
-
-                     
-
-            
-         });
-
-    }
+}
     
     });
     
