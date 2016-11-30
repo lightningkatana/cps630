@@ -13,21 +13,7 @@
 	    	<script src="/socket.io/socket.io.js"></script>
     		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<!--   old header 
-		<header class="flex-container">
-			<h1>CPS 630 Project</h1>
-			<nav class="flex-item">
-				<ul class="flex-list">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Messages</a></li>
-					<li><a href="#">Tweet</a></li>
-					<li><div class="container-4"><input type="search" id="search" placeholder="Search..." />
-					    <button class="icon"><i class="fa fa-search"></i></button>
-					  </div></li>
-				</ul>
-			</nav>
-		</header>
-		-->
+
 <div class=".navbar-header">		
 	<nav class="navbar navbar-inverse">
 	    <div class="container-fluid">
@@ -39,30 +25,26 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<img alt="Brand" style="margin-top:12px" class="pull-left" src="icon.png" height="35" width="35">
-				<a class="navbar-brand" href="#">CPS 630 Project</a>
+				<img alt="Brand" style="margin-top:5px" class="pull-left" src="icon.png" height="35" width="35">
+				<a class="navbar-brand" href="#">Twitter Crawler</a>
 					
 			</div>
 			
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/"> Home <span class="sr-only">(current)</span></a></li>
-					<li class="active"><a href="/messages">Messages</a></li>
+					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
+					<li class="active"><a href="/messages.html">Find User</a></li>
 					<li><a href="/tweets.html">Tweets</a></li>
-					<form class="navbar-form navbar-right" role="search">
+					<li><a href="/stats.html">Stats</a></li>
+					<li><form class="navbar-form navbar-right" role="search" action="https://twittercrawler-cps630.herokuapp.com/process_post" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Number of tweets">
+							<input type="text" name="keyword" class="form-control" placeholder="Search">
+							<input type="text" name="counts" class="form-control" placeholder="Number of tweets">
 						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
 					</form>
-					
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
+					</li>
 
 				</ul>
 
@@ -71,92 +53,90 @@
 	    </div><!-- /.container-fluid -->
 	</nav>			
 </div>
-<<<<<<< HEAD:index.html
-		<!--  old search 
-		<form action="http://127.0.0.1:8081/process_post" method="POST">
-		What to Search For: <input type="text" name="keyword">  <br>
-		How Many Tweets?: <input type="text" name="counts"> <br>
-		<input type="submit" name="go" value="Submit">
-		-->
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="keyword" placeholder="Search for something">
-				<input type="text" class="form-control" name="counts" placeholder=" How many tweets">
-			</div>
-				<button type="submit" class="btn btn-default" name="go" value="Submit">Submit</button>
-		</form>		
-=======
 	
->>>>>>> newpages:public/messages.html
 		
 		<script>
-		var socket = io.connect('http://127.0.0.1:8081');
-		socket.on('user', function(tweet){
-		$('#tweetd').after( '<div class="tweetd">User: &nbsp &nbsp &nbsp &nbsp'+ tweet+'</div>');
-		});
-		socket.on('text', function(tweettext){
-		    $('#tweetd').after('<div class="tweettext">Tweeted: ' +tweettext+ '</div>');
-		});
-		socket.on('created', function(tweetdate){
-		    $('#tweetd').after('<div class="tweetdate">Created: &nbsp' +tweetdate+ '</div>' + '<br>');
-		});
-		socket.on('you', function(post){
-		$('#yourname').after( '<div class="yourname">User: &nbsp &nbsp &nbsp &nbsp'+ post +'</div>');
-		});
-		socket.on('posted', function(posttext){
-		    $('#yourtweet').after('<div class="yourtweet">Tweeted: ' +posttext+ '</div>');
-		});
+		var socket = io.connect('https://twittercrawler-cps630.herokuapp.com/');
+		var name, sname;
 		
-		</script>
-		
-		<hr> <!-- simple divider -->
-		
-		<div id="tweetd"></div>
-		<div id="tweettext"></div>
-		<div id="tweetdate"></div>	
-<<<<<<< HEAD:index.html
-		
-		<!-- old post
-		<form action="http://127.0.0.1:8081/process_post2" method="POST">
-		What to post?: <input type="text" name="postTweet">  <br>
-		<button type="submit" name="go" value="Post">Post!</button>
-		-->
-		
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="postTweet" placeholder="Post something!">
-			</div>
-				<button type="submit" class="btn btn-default" name="go" value="Post">Post!</button>
-		</form>				
-=======
+		socket.on('banner', function(getBanner){
+		    $('#banner').after('<img class="banner" src="' + getBanner.slice(1,-1) + '">');
+		});
 
-		<form action="http://127.0.0.1:8081/process_post"class="navbar-form" method="POST">
-			<div class= "form-group">
-				<input type="text" class="form-control" name="name" placeholder="Search a username">
-			</div>
-				<button type="submit" class="btn btn-default" name="go" value="SearchUser">Search</button>
-		</form>	
-	
-		<div class="content">
-			<div class="col span_1_of_4">
-				<div class="name" id="Name"></div>
-				<div class="screenName" id="sName"></div>
-				<div class="location" id="loc"></div>
-				<div class="description" id="desc"></div>
-				<div class="friends" id="friends"></div>
-				<div class="followers" id="follow"></div>
-				<div class="statuses" id="last"></div>
-				<div class="created" id="accCreated"></div>
-			</div>
-		</div>		
->>>>>>> newpages:public/messages.html
+		socket.on('name', function(getName){
+			name = getName.slice(1,-1);
+		    //$('#Name').html('<div class="Name"><img id="pic">' +getName.slice(1, -1)+ '</div>');
+		});
+		socket.on('screenName', function(getSName){
+			sname = getSName.slice(1,-1);
+		    //$('#sName').after('<div class="sName"><p>@' +getSName.slice(1, -1)+ '</p></div>');
+		});
+		socket.on('picture', function(getPic){
+		    $('#Name').after('<span><div class="Name"><img id="pic" src="' + getPic.slice(1,-1) + '"> ' + name + ' - @' + sname + '</div></span><br>');
+		});
+		socket.on('location', function(getLoc){
+		    $('#loc').after('<div class="loc">Location: ' +getLoc.slice(1, -1)+ '</div>');
+		});
+		socket.on('description', function(getDesc){
+		    $('#desc').after('<div class="desc">' +getDesc.slice(1, -1)+ '</div>');
+		});
+		socket.on('friends', function(getFriends){
+		    $('#friends').after('<div class="friends">' +getFriends+ ' friends</div>');
+		});
+		socket.on('followers', function(getFollow){
+		    $('#follow').after('<div class="follow">' +getFollow+ ' followers</div>');
+		});
+		socket.on('lastStat', function(getLast){
+		    $('#last').after('<div class="yourname">Last Tweet</div><div class="last">' +getLast.slice(1, -1)+ '</div>');
+		});
+		socket.on('accCreate', function(getAccC){
+		    $('#accCreated').after('<div class="accCreated">Account created on ' +getAccC.slice(1, -1)+ '</div>');
+		});
+
 		
+		</script>	
+
 		<div class="content">
-			<div class="col span_1_of_4">
-				<div class="you" id="yourname"></div>
-				<div class="posted" id="yourtweet"></div>
+			<div class="col">
+				<div id="tweetd"></div>
+				<div id="tweettext"></div>
+				<div id="tweetdate"></div>
 			</div>
 		</div>
+		
+		<div class="content">
+			<div class="col">
+				<div class="composeh1">Search a username</div>
+				<br>
+				<form action="https://twittercrawler-cps630.herokuapp.com/process_post"class="navbar-form" method="POST">
+					<div class= "form-group">
+						<input type="text" class="form-control" name="name" placeholder="Looking for...?">
+					</div>
+						<button type="submit" class="btn btn-default" name="go" value="SearchUser">Search</button>
+				</form>	
+				<br>
+			</div>
+		</div>
+		<hr>
+	
+		<div class="content">
+			<div class="col">
+				<img id="banner">
+				<div id="container">
+					<div id="Name"></div>
+					<div id="sName"></div>
+				</div>
+				<div id="desc"></div>
+				<div id="loc"></div>
+				<div id="friends"></div>
+				<div id="follow"></div>
+				<div id="accCreated"></div>
+				<div id="last"></div>
+
+			</div>
+		</div>		
+		<br>
+		
 		
 	</body>
 </html>
